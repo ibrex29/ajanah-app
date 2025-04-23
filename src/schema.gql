@@ -1,0 +1,76 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  otherNames: String
+  gender: String!
+  dob: DateTime!
+  address: String!
+  state: String!
+  country: String!
+  phoneNumber: String
+  isActive: Boolean!
+  role: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CheckConnectionDTO {
+  connectionStatus: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type ValidateResetTokenResponse {
+  status: String!
+  message: String!
+}
+
+type Query {
+  checkServer: CheckConnectionDTO!
+  getAllUsers: [User!]!
+  findUserByEmail(email: String!): User
+  hello: String!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): String!
+  login(email: String!, password: String!): LoginResponse!
+  protectedResource: String!
+  logout(token: String!): Boolean!
+  validatePasswordResetToken(data: ValidatePasswordResetInput!): ValidateResetTokenResponse!
+  changePassword(data: ChangePasswordInput!): Boolean!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  otherNames: String
+  gender: String!
+  dob: DateTime!
+  address: String!
+  state: String!
+  phoneNumber: String
+}
+
+input ValidatePasswordResetInput {
+  resetToken: String!
+}
+
+input ChangePasswordInput {
+  oldPassword: String!
+  newPassword: String!
+}
