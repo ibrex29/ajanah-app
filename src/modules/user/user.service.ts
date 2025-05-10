@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -6,6 +7,7 @@ import { User } from '@prisma/client';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UserNotFoundException } from './exceptions/UserNotFound.exception';
 import { CreateUserInput } from './dto/user.dto';
+import { CreateUserResponse } from './dto/check-connection.dto';
 
 @Injectable()
 export class UserService {
@@ -13,12 +15,21 @@ export class UserService {
     private prisma: PrismaService
   ) {}
   
-  async createUser(data: CreateUserInput): Promise<string> {
 
-    await this.prisma.user.create({
+  async createUser(data: CreateUserInput): Promise<CreateUserResponse> {
+    // Check if email already exists
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+  
+    if (existingUser) {
+      throw new ConflictException('Email already exists');
+    }
+  
+    const createdUser = await this.prisma.user.create({
       data: {
         email: data.email,
-        password: data.password,
+        password: data.password, // 🔐 Consider hashing
         firstName: data.firstName,
         lastName: data.lastName,
         otherNames: data.otherNames,
@@ -28,13 +39,17 @@ export class UserService {
         state: data.state,
         country: 'nigeria',
         phoneNumber: data.phoneNumber,
-        isActive: true, 
+        isActive: true,
         authStrategy: 'local',
         role: 'user',
       },
     });
-
-    return 'User created successfully';
+  
+    return {
+      message: 'User created successfully',
+      code: 201,
+      user: createdUser,
+    };
   }
   
   async findUserByEmail(email: string) {

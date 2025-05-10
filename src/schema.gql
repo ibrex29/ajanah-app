@@ -27,6 +27,12 @@ type CheckConnectionDTO {
   connectionStatus: String!
 }
 
+type CreateUserResponse {
+  message: String!
+  code: Float!
+  user: User!
+}
+
 type LoginResponse {
   accessToken: String!
   refreshToken: String!
@@ -45,7 +51,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): String!
+  createUser(data: CreateUserInput!): CreateUserResponse!
   login(email: String!, password: String!): LoginResponse!
   protectedResource: String!
   logout(token: String!): Boolean!

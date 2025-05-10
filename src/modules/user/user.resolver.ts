@@ -3,7 +3,7 @@ import { CreateUserInput } from './dto/user.dto';
 import { User } from './models/user.model';
 import { UserService } from './user.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
-import { CheckConnectionDTO } from './dto/check-connection.dto';
+import { CheckConnectionDTO, CreateUserResponse } from './dto/check-connection.dto';
 import { Public } from 'src/common/decorators/param-decorator/public.decorator';
 
 @Resolver('User')
@@ -16,9 +16,9 @@ export class UserResolver {
     return { connectionStatus: 'connected with graphql' };
   }
 
-  @Mutation(() => String)
+  @Mutation(() => CreateUserResponse)
   @Public()
-  async createUser(@Args('data') data: CreateUserInput): Promise<string> {
+  async createUser(@Args('data') data: CreateUserInput): Promise<CreateUserResponse> {
     return this.userService.createUser(data);
   }
 
