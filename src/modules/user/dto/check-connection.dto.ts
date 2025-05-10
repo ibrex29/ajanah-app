@@ -15,6 +15,6 @@ export class CreateUserResponse {
   @Field()
   code: number;
 
-  @Field(() => User, { nullable: true })  // <-- make it nullable if needed
+  @Field(() => User, { nullable: true })
   user?: User;
 }

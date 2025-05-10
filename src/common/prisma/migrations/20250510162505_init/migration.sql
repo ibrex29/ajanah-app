@@ -13,11 +13,11 @@ CREATE TABLE "user" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "otherNames" TEXT,
-    "gender" TEXT NOT NULL,
-    "dob" TIMESTAMP(3) NOT NULL,
-    "address" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "country" TEXT NOT NULL DEFAULT 'nigeria',
+    "gender" TEXT,
+    "dob" TIMESTAMP(3),
+    "address" TEXT,
+    "state" TEXT,
+    "country" TEXT DEFAULT 'nigeria',
     "createdByUserId" TEXT,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
