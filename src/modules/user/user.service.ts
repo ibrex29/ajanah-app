@@ -29,19 +29,14 @@ export class UserService {
     const createdUser = await this.prisma.user.create({
       data: {
         email: data.email,
-        password: data.password, // 🔐 Consider hashing
+        password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
         otherNames: data.otherNames,
-        gender: data.gender,
-        dob: new Date(data.dob),
-        address: data.address,
-        state: data.state,
-        country: 'nigeria',
         phoneNumber: data.phoneNumber,
         isActive: true,
         authStrategy: 'local',
-        role: 'user',
+        role: data.role,
       },
     });
   

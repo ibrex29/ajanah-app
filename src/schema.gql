@@ -30,7 +30,7 @@ type CheckConnectionDTO {
 type CreateUserResponse {
   message: String!
   code: Float!
-  user: User!
+  user: User
 }
 
 type LoginResponse {
@@ -65,10 +65,11 @@ input CreateUserInput {
   firstName: String!
   lastName: String!
   otherNames: String
-  gender: String!
-  dob: DateTime!
-  address: String!
-  state: String!
+  gender: String
+  role: String!
+  dob: DateTime
+  address: String
+  state: String
   phoneNumber: String
 }
 

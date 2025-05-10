@@ -24,19 +24,23 @@ export class CreateUserInput {
   @IsString()
   otherNames?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   gender: string;
 
   @Field()
+  @IsString()
+  role: string;
+
+  @Field({ nullable: true })
   @IsDate()
   dob: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   address: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   state: string;
 
