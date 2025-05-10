@@ -4,6 +4,7 @@ import { User } from './models/user.model';
 import { UserService } from './user.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { CheckConnectionDTO } from './dto/check-connection.dto';
+import { Public } from 'src/common/decorators/param-decorator/public.decorator';
 
 @Resolver('User')
 export class UserResolver {
@@ -16,6 +17,7 @@ export class UserResolver {
   }
 
   @Mutation(() => String)
+  @Public()
   async createUser(@Args('data') data: CreateUserInput): Promise<string> {
     return this.userService.createUser(data);
   }
