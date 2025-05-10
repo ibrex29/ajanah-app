@@ -33,7 +33,7 @@ export class UserService {
         firstName: data.firstName,
         lastName: data.lastName,
         otherNames: data.otherNames,
-        gender: data.gender,
+        gender: "mele",
         dob: data.dob,
         address: data.address,
         state: data.state,
