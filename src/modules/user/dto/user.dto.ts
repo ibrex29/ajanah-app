@@ -33,18 +33,6 @@ export class CreateUserInput {
   role: string;
 
   @Field({ nullable: true })
-  @IsDate()
-  dob: Date;
-
-  @Field({ nullable: true })
-  @IsString()
-  address: string;
-
-  @Field({ nullable: true })
-  @IsString()
-  state: string;
-
-  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   phoneNumber?: string;

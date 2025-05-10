@@ -8,20 +8,10 @@ type User {
   firstName: String!
   lastName: String!
   otherNames: String
-  gender: String!
-  dob: DateTime!
-  address: String!
-  state: String!
-  country: String!
   phoneNumber: String
   isActive: Boolean!
   role: String!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type CheckConnectionDTO {
   connectionStatus: String!
@@ -67,9 +57,6 @@ input CreateUserInput {
   otherNames: String
   gender: String
   role: String!
-  dob: DateTime
-  address: String
-  state: String
   phoneNumber: String
 }
 

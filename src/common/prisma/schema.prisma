@@ -29,12 +29,7 @@ model User {
   firstName  String
   lastName   String
   otherNames String?
-  gender     String?
-  dob        DateTime?
-  address    String?
-  state      String?
-  country    String?   @default("nigeria")
-
+  
   createdByUserId   String?
 
   @@map("user")

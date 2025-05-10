@@ -17,21 +17,6 @@ export class User {
   @Field({ nullable: true })
   otherNames?: string;
 
-  @Field()
-  gender: string;
-
-  @Field()
-  dob: Date;
-
-  @Field()
-  address: string;
-
-  @Field()
-  state: string;
-
-  @Field()
-  country: string;
-
   @Field({ nullable: true })
   phoneNumber?: string;
 

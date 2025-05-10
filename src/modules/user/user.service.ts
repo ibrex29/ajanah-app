@@ -33,11 +33,6 @@ export class UserService {
         firstName: data.firstName,
         lastName: data.lastName,
         otherNames: data.otherNames,
-        gender: "mele",
-        dob: data.dob,
-        address: data.address,
-        state: data.state,
-        country: 'nigeria',
         phoneNumber: data.phoneNumber,
         isActive: true,
         authStrategy: 'local',
@@ -64,11 +59,6 @@ export class UserService {
         role: true,
         firstName: true,
         lastName: true,
-        gender: true,      // Add missing fields
-        dob: true,
-        address: true,
-        state: true,
-        country: true,
       },
     });
   }
