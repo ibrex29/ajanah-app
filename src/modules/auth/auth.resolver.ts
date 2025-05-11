@@ -8,6 +8,7 @@ import { User } from 'src/common/decorators/param-decorator/User.decorator';
 import { LoginArgs, LoginResponse } from './types/login-response';
 import { ValidateResetTokenResponse } from './types';
 import { Public } from 'src/common/decorators/param-decorator/public.decorator';
+import { LoginInput } from './dtos/email-login.dto';
 
 @Resolver()
 export class AuthResolver {
@@ -15,43 +16,16 @@ export class AuthResolver {
         private readonly authService: AuthService,
     ) { }
 
-    // @Mutation(() => LoginResponse)
-    // @UseGuards(LocalAuthGuard) 
-    // async login(
-    //   @Args('email') email: string,
-    //   @Args('password') password: string,
-    //   @Context() context,
-    // ): Promise<LoginResponse> {
-    //   const user = await this.authService.validateUser(email, password);
-
-    //   if (!user) {
-    //     throw new UnauthorizedException('Invalid email or password');
-    //   }
-
-    //   const tokens = await this.authService.login(user);
-
-    //   return {
-    //     accessToken: tokens.accessToken,
-    //     refreshToken: tokens.refreshToken,
-    //     profile: {
-    //       name: user.firstName,
-    //       role: user.role,
-    //     },
-    //   };
-    // }
     @Mutation(() => LoginResponse)
     @Public()
-    async login(
-        @Args() { email, password }: LoginArgs
-    ) {
-        try {
-            const user = await this.authService.validateUser(email, password);
-            return this.authService.login(user);
-        } catch (error) {
-            throw new UnauthorizedException('Invalid credentials');
-        }
+    async login(@Args('input') input: LoginInput): Promise<LoginResponse> {
+        const user = await this.authService.validateUser(input.email, input.password);
+    if (!user) {
+        throw new UnauthorizedException('Invalid credentials');
     }
-
+      return this.authService.login(input.email, input.password);
+    }
+    
     @Mutation(() => String)
     protectedResource() {
         return "You accessed a protected route!";

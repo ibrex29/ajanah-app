@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PasswordService } from './password.service';
 import { CryptoService } from 'src/common/crypto/crypto.service';
 import { JwtTokenService } from 'src/common/token/jwt-token.service';
@@ -17,6 +17,8 @@ interface AuthUser {
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  message: string;
+  code: string;
   profile: {
     sub: string;
     email: string;
@@ -40,33 +42,69 @@ export class AuthService {
 
   async validateUser(email: string, inputtedPassword: string) {
     const user = await this.userService.findUserByEmail(email);
-    if (!user) return null;
-
+  
+    if (!user) {
+      return {
+        success: false,
+        message: 'No account found with this email',
+        code: 'NOT_FOUND',
+      };
+    }
+  
     const isMatch = await this.cryptoService.comparePassword(
       inputtedPassword,
       user.password,
     );
-
-    if (!isMatch) return null;
-
+  
+    if (!isMatch) {
+      return {
+        success: false,
+        message: 'Incorrect password',
+        code: 'UNAUTHORIZED',
+      };
+    }
+  
     const { password, ...result } = user;
-    return result;
+    return { success: true, user: result };
   }
-
-  async login(user: AuthUser) {
+  
+  async login(email: string, password: string): Promise<LoginResponse> {
+    const result = await this.validateUser(email, password);
+  
+    if (!result.success) {
+      return {
+        accessToken: null,
+        refreshToken: null,
+        message: result.message,
+        code: result.code,
+        profile: null,
+      };
+    }
+  
+    const user = result.user;
+  
     const payload = {
       sub: user.id,
       email: user.email,
       role: user.role,
     };
-
+  
     const tokens = await this.jwtTokenService.generateToken(payload);
-    
+  
     return {
       ...tokens,
-      profile: payload,
+      message: 'Login successful',
+      code: 'SUCCESS',
+      profile: {
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+        name: `${user.firstName} ${user.lastName}`,
+      },
+      
     };
   }
+  
 
   async logout(token: string) {
     return this.jwtTokenService.blacklist(token);

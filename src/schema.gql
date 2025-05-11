@@ -24,8 +24,10 @@ type CreateUserResponse {
 }
 
 type LoginResponse {
-  accessToken: String!
-  refreshToken: String!
+  accessToken: String
+  refreshToken: String
+  message: String
+  code: String
 }
 
 type ValidateResetTokenResponse {
@@ -42,7 +44,7 @@ type Query {
 
 type Mutation {
   createUser(data: CreateUserInput!): CreateUserResponse!
-  login(email: String!, password: String!): LoginResponse!
+  login(input: LoginInput!): LoginResponse!
   protectedResource: String!
   logout(token: String!): Boolean!
   validatePasswordResetToken(data: ValidatePasswordResetInput!): ValidateResetTokenResponse!
@@ -58,6 +60,11 @@ input CreateUserInput {
   gender: String
   role: String!
   phoneNumber: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input ValidatePasswordResetInput {

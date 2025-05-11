@@ -34,14 +34,40 @@ export class LoginArgs {
 //   profile: JwtPayloadGQL;
 // }
 
+
 @ObjectType()
 export class LoginResponse {
-  @Field()
-  accessToken: string;
+  @Field(() => String, { nullable: true })
+  accessToken?: string;
 
-  @Field()
-  refreshToken: string;
+  @Field(() => String, { nullable: true })
+  refreshToken?: string;
+
+  @Field(() => String, { nullable: true })
+  message?: string;
+
+  @Field(() => String, { nullable: true })
+  code?: string;
+
+  // @Field(() => Profile, { nullable: true })
+  // profile?: Profile;
 }
+
+@ObjectType()
+export class Profile {
+  @Field(() => String)
+  sub: string;
+
+  @Field(() => String)
+  email: string;
+
+  @Field(() => String)
+  role: string;
+
+  @Field(() => String)
+  name: string;
+}
+
 
 @InputType()
 export class LoginInput {
@@ -51,3 +77,4 @@ export class LoginInput {
   @Field()
   password: string;
 }
+

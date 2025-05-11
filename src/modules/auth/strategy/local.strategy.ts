@@ -16,15 +16,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    if (user.isActive === false) {
+    if (user.user.isActive === false) {
       throw new UnauthorizedException('Account is deactivated');
     }
 
     // Return only relevant user info, excluding sensitive data
     return {
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      id: user.user.id,
+      email: user.user.email,
+      role: user.user.role,
     };
   }
 }
